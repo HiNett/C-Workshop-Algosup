@@ -31,6 +31,7 @@
 #define MAX_EMPLOYEES 100
 
 typedef struct {
+    char id[10];
     char name[MAX_NAME];
     char phone[MAX_PHONE];
     char email[MAX_EMAIL];
@@ -45,6 +46,7 @@ typedef struct {
 } EmployeeList;
 
 void printEmployee(Employee employee) {
+    printf("ID : %s\n", employee.id);
     printf("Name: %s\n", employee.name);
     printf("Phone: %s\n", employee.phone);
     printf("Email: %s\n", employee.email);
@@ -76,9 +78,14 @@ void updateEmployee(EmployeeList *employeeList, int index, Employee employee) {
     employeeList->employees[index] = employee;
 }
 
-int searchEmployee(EmployeeList employeeList, char *name) {
+int searchEmployee(EmployeeList employeeList, char *data) {
     for (int i = 0; i < employeeList.count; ++i) {
-        if (strcmp(employeeList.employees[i].name, name) == 0) {
+        if (strcmp(employeeList.employees[i].name, data) == 0 ||
+            strcmp(employeeList.employees[i].phone, data) == 0 ||
+            strcmp(employeeList.employees[i].email, data) == 0 ||
+            strcmp(employeeList.employees[i].address, data) == 0 ||
+            employeeList.employees[i].age == atoi(data) ||
+            strcmp(employeeList.employees[i].role, data) == 0) {
             return i;
         }
     }
@@ -93,6 +100,7 @@ void saveEmployeeList(EmployeeList employeeList) {
     }
 
     for (int i = 0; i < employeeList.count; ++i) {
+        fprintf(file, "%s\n", employeeList.employees[i].id);
         fprintf(file, "%s\n", employeeList.employees[i].name);
         fprintf(file, "%s\n", employeeList.employees[i].phone);
         fprintf(file, "%s\n", employeeList.employees[i].email);
@@ -114,6 +122,7 @@ EmployeeList loadEmployeeList() {
         exit(1);
     }
 
+    char id[10];
     char name[MAX_NAME];
     char phone[MAX_PHONE];
     char email[MAX_EMAIL];
@@ -173,22 +182,21 @@ int main() {
 
             addEmployee(&employeeList, employee);
         } else if (choice == 2) {
-            printf("Enter name: ");
-            char name[MAX_NAME];
-            scanf("%s", name);
-
-            int index = searchEmployee(employeeList, name);
-            if (index == -1) {
-                printf("Employee not found!\n");
-            } else {
-                removeEmployee(&employeeList, index);
-            }
+                printf("Enter any user information (Role, Phone number, etc.) : ");
+                char data[MAX_ADDRESS];
+                scanf("%s", data);
+                int index = searchEmployee(employeeList, data);
+                if (index == -1) {
+                    printf("Employee not found!\n");
+                } else {
+                    removeEmployee(&employeeList, index);
+                }
         } else if (choice == 3) {
-            printf("Enter name: ");
-            char name[MAX_NAME];
-            scanf("%s", name);
+            printf("Enter any user information (Role, Phone number, etc.) : ");
+            char data[MAX_ADDRESS];
+            scanf("%s", data);
 
-            int index = searchEmployee(employeeList, name);
+            int index = searchEmployee(employeeList, data);
             if (index == -1) {
                 printf("Employee not found!\n");
             } else {
@@ -209,11 +217,11 @@ int main() {
                 updateEmployee(&employeeList, index, employee);
             }
         } else if (choice == 4) {
-            printf("Enter name: ");
-            char name[MAX_NAME];
-            scanf("%s", name);
+            printf("Enter any user information (Role, Phone number, etc.) : ");
+            char data[MAX_ADDRESS];
+            scanf("%s", data);
 
-            int index = searchEmployee(employeeList, name);
+            int index = searchEmployee(employeeList, data);
             if (index == -1) {
                 printf("Employee not found!\n");
             } else {
