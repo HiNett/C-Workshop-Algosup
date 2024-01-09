@@ -93,7 +93,7 @@ int searchEmployee(EmployeeList employeeList, char *data) {
 }
 
 void saveEmployeeList(EmployeeList employeeList) {
-    FILE *file = fopen("../employees.txt", "w");
+    FILE *file = fopen("./employees.txt", "w");
     if (file == NULL) {
         printf("Error opening file!\n");
         exit(1);
@@ -116,7 +116,7 @@ EmployeeList loadEmployeeList() {
     EmployeeList employeeList;
     employeeList.count = 0;
 
-    FILE *file = fopen("../employees.txt", "r");
+    FILE *file = fopen("./employees.txt", "r");
     if (file == NULL) {
         printf("Error opening file!\n");
         exit(1);
