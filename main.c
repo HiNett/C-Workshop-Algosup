@@ -45,6 +45,27 @@ typedef struct {
     int count;
 } EmployeeList;
 
+void trimNewline(char *str) {
+    int len = strlen(str);
+    if (len > 0 && str[len - 1] == '\n') {
+        str[len - 1] = '\0';
+    }
+}
+
+void readStringWithSpaces(char *output, int maxLen) {
+    fgets(output, maxLen, stdin);
+    trimNewline(output);
+}
+
+int generateEmployeeId(EmployeeList *list) {
+    int newId = 1;
+    if (list->count > 0) {
+        sscanf(list->employees[list->count - 1].id, "%d", &newId);
+        newId++;
+    }
+    return newId;
+}
+
 void printEmployee(Employee employee) {
     printf("ID : %s\n", employee.id);
     printf("Name: %s\n", employee.name);
@@ -81,6 +102,7 @@ void updateEmployee(EmployeeList *employeeList, int index, Employee employee) {
 int searchEmployee(EmployeeList employeeList, char *data) {
     for (int i = 0; i < employeeList.count; ++i) {
         if (strcmp(employeeList.employees[i].name, data) == 0 ||
+            strcmp(employeeList.employees[i].id, data) == 0 ||
             strcmp(employeeList.employees[i].phone, data) == 0 ||
             strcmp(employeeList.employees[i].email, data) == 0 ||
             strcmp(employeeList.employees[i].address, data) == 0 ||
@@ -93,7 +115,7 @@ int searchEmployee(EmployeeList employeeList, char *data) {
 }
 
 void saveEmployeeList(EmployeeList employeeList) {
-    FILE *file = fopen("./employees.txt", "w");
+    FILE *file = fopen("../employees.txt", "w");
     if (file == NULL) {
         printf("Error opening file!\n");
         exit(1);
@@ -116,7 +138,7 @@ EmployeeList loadEmployeeList() {
     EmployeeList employeeList;
     employeeList.count = 0;
 
-    FILE *file = fopen("./employees.txt", "r");
+    FILE *file = fopen("../employees.txt", "r");
     if (file == NULL) {
         printf("Error opening file!\n");
         exit(1);
@@ -155,30 +177,36 @@ int main() {
     EmployeeList employeeList = loadEmployeeList();
 
     while (true) {
-        printf("1. Add new employee\n");
+        printf("\n1. Add new employee\n");
         printf("2. Remove employee\n");
         printf("3. Update employee\n");
         printf("4. Search employee\n");
         printf("5. Print all employees\n");
         printf("6. Exit\n");
+        printf("Select an option: ");
 
         int choice;
         scanf("%d", &choice);
+        getchar(); // consume newline
 
         if (choice == 1) {
             Employee employee;
+            int newId = generateEmployeeId(&employeeList);
+            snprintf(employee.id, sizeof(employee.id), "%d", newId);
+
             printf("Enter name: ");
-            scanf("%s", employee.name);
+            readStringWithSpaces(employee.name, MAX_NAME);
             printf("Enter phone: ");
-            scanf("%s", employee.phone);
+            readStringWithSpaces(employee.phone, MAX_PHONE);
             printf("Enter email: ");
-            scanf("%s", employee.email);
+            readStringWithSpaces(employee.email, MAX_EMAIL);
             printf("Enter address: ");
-            scanf("%s", employee.address);
+            readStringWithSpaces(employee.address, MAX_ADDRESS);
             printf("Enter age: ");
             scanf("%d", &employee.age);
+            getchar();
             printf("Enter role: ");
-            scanf("%s", employee.role);
+            readStringWithSpaces(employee.role, MAX_ROLE);
 
             addEmployee(&employeeList, employee);
         } else if (choice == 2) {
