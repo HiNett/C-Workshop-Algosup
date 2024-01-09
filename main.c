@@ -177,8 +177,11 @@ int main() {
     EmployeeList employeeList = loadEmployeeList();
 
     while (true) {
-        system("cls");
-
+        #ifdef _WIN32
+                system("cls");
+        #else
+                system(“clear”);
+        #endif
         printf(" _____ _____ _____ _____ _____\n");
         printf("|   __|   __|  _  |_   _|   __|\n");
         printf("|   __|__   |     | | | |__   |\n");
@@ -203,32 +206,54 @@ int main() {
             int newId = generateEmployeeId(&employeeList);
             snprintf(employee.id, sizeof(employee.id), "%d", newId);
 
-            printf("Enter name: ");
+            #ifdef _WIN32
+                        system("cls");
+            #else
+                        system(“clear”);
+            #endif
+            printf("\n\n\n\t\t\tEmployee Creation");
+            printf("\n\t\t=====================");
+            printf("\n\t\tEnter name: ");
             readStringWithSpaces(employee.name, MAX_NAME);
-            printf("Enter phone: ");
+            printf("\n\t\tEnter phone: ");
             readStringWithSpaces(employee.phone, MAX_PHONE);
-            printf("Enter email: ");
+            printf("\n\t\tEnter email: ");
             readStringWithSpaces(employee.email, MAX_EMAIL);
-            printf("Enter address: ");
+            printf("\n\t\tEnter address: ");
             readStringWithSpaces(employee.address, MAX_ADDRESS);
-            printf("Enter age: ");
+            printf("\n\t\tEnter age: ");
             scanf("%d", &employee.age);
             getchar();
-            printf("Enter role: ");
+            printf("\n\t\tEnter role: ");
             readStringWithSpaces(employee.role, MAX_ROLE);
+            printf("\n\t\t=====================");
 
             addEmployee(&employeeList, employee);
         } else if (choice == 2) {
-                printf("Enter any user information (Role, Phone number, etc.) : ");
-                char data[MAX_ADDRESS];
-                scanf("%s", data);
-                int index = searchEmployee(employeeList, data);
-                if (index == -1) {
-                    printf("Employee not found!\n");
-                } else {
-                    removeEmployee(&employeeList, index);
-                }
+            #ifdef _WIN32
+                        system("cls");
+            #else
+                        system(“clear”);
+            #endif
+            printf("\n\n\n\t\t\tEmployee Deletion");
+            printf("\n\t\t=====================");
+            printf("\n\t\tEnter any user information (Role, Phone number, etc.) : ");
+            char data[MAX_ADDRESS];
+            scanf("%s", data);
+            int index = searchEmployee(employeeList, data);
+            if (index == -1) {
+                printf("\n\t\tEmployee not found!\n");
+            } else {
+                removeEmployee(&employeeList, index);
+            }
         } else if (choice == 3) {
+            #ifdef _WIN32
+                        system("cls");
+            #else
+                        system(“clear”);
+            #endif
+            printf("\n\n\n\t\t\tEmployee Edition");
+            printf("\n\t\t=====================");
             printf("Enter any user information (Role, Phone number, etc.) : ");
             char data[MAX_ADDRESS];
             scanf("%s", data);
@@ -237,24 +262,40 @@ int main() {
             if (index == -1) {
                 printf("Employee not found!\n");
             } else {
+                #ifdef _WIN32
+                                system("cls");
+                #else
+                                system(“clear”);
+                #endif
                 Employee employee;
-                printf("Enter name: ");
-                scanf("%s", employee.name);
-                printf("Enter phone: ");
-                scanf("%s", employee.phone);
-                printf("Enter email: ");
-                scanf("%s", employee.email);
-                printf("Enter address: ");
-                scanf("%s", employee.address);
-                printf("Enter age: ");
+                printf("\n\n\n\t\t\tEdit Employee");
+                printf("\n\t\t=====================");
+                printf("\n\t\tEnter name: ");
+                readStringWithSpaces(employee.name, MAX_NAME);
+                printf("\n\t\tEnter phone: ");
+                readStringWithSpaces(employee.phone, MAX_PHONE);
+                printf("\n\t\tEnter email: ");
+                readStringWithSpaces(employee.email, MAX_EMAIL);
+                printf("\n\t\tEnter address: ");
+                readStringWithSpaces(employee.address, MAX_ADDRESS);
+                printf("\n\t\tEnter age: ");
                 scanf("%d", &employee.age);
-                printf("Enter role: ");
-                scanf("%s", employee.role);
+                getchar();
+                printf("\n\t\tEnter role: ");
+                readStringWithSpaces(employee.role, MAX_ROLE);
+                printf("\n\t\t=====================");
 
                 updateEmployee(&employeeList, index, employee);
             }
         } else if (choice == 4) {
-            printf("Enter any user information (Role, Phone number, etc.) : ");
+            #ifdef _WIN32
+                        system("cls");
+            #else
+                        system(“clear”);
+            #endif
+            printf("\n\n\n\t\t\tEmployee Search");
+            printf("\n\t\t===============================\n");
+            printf("\t\tEnter any user information \n\t\t(Role, Phone number, etc.) : ");
             char data[MAX_ADDRESS];
             scanf("%s", data);
 
