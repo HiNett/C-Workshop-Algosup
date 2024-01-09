@@ -45,6 +45,43 @@ typedef struct {
     int count;
 } EmployeeList;
 
+void clearScreen() {
+#ifdef _WIN32
+    system("cls");
+#else
+    system("clear");
+#endif
+}
+
+void waitForUserInput() {
+    printf("\nPress Enter to continue...");
+    getchar();
+}
+
+int getIntInput(const char *prompt) {
+    int value;
+    char buffer[16];
+
+    while (true) {
+        printf("%s", prompt);
+        if (!fgets(buffer, sizeof(buffer), stdin)) {
+            // Input error
+            continue;
+        }
+
+        char *endptr;
+        value = strtol(buffer, &endptr, 10);
+        if (endptr == buffer || *endptr != '\n') {
+            printf("Please enter a valid integer.\n");
+            continue;
+        }
+
+        break;
+    }
+
+    return value;
+}
+
 void trimNewline(char *str) {
     int len = strlen(str);
     if (len > 0 && str[len - 1] == '\n') {
@@ -74,6 +111,7 @@ void printEmployee(Employee employee) {
     printf("Address: %s\n", employee.address);
     printf("Age: %d\n", employee.age);
     printf("Role: %s\n", employee.role);
+    waitForUserInput();
 }
 
 void printEmployeeList(EmployeeList employeeList) {
@@ -81,6 +119,7 @@ void printEmployeeList(EmployeeList employeeList) {
         printf("Employee %d:\n", i + 1);
         printEmployee(employeeList.employees[i]);
     }
+    waitForUserInput();
 }
 
 void addEmployee(EmployeeList *employeeList, Employee employee) {
@@ -108,9 +147,12 @@ int searchEmployee(EmployeeList employeeList, char *data) {
             strcmp(employeeList.employees[i].address, data) == 0 ||
             employeeList.employees[i].age == atoi(data) ||
             strcmp(employeeList.employees[i].role, data) == 0) {
+
+            waitForUserInput();
             return i;
         }
     }
+    waitForUserInput();
     return -1;
 }
 
@@ -198,8 +240,9 @@ int main() {
         printf("\n\t\t=================\n\t\t");
 
         int choice;
+        printf("\n\t\tSelect an option: ");
         scanf("%d", &choice);
-        getchar(); // consume newline
+        getchar();
 
         if (choice == 1) {
             Employee employee;
@@ -221,8 +264,7 @@ int main() {
             readStringWithSpaces(employee.email, MAX_EMAIL);
             printf("\n\t\tEnter address: ");
             readStringWithSpaces(employee.address, MAX_ADDRESS);
-            printf("\n\t\tEnter age: ");
-            scanf("%d", &employee.age);
+            getIntInput("\n\t\tEnter age: ");
             getchar();
             printf("\n\t\tEnter role: ");
             readStringWithSpaces(employee.role, MAX_ROLE);
@@ -310,6 +352,10 @@ int main() {
         } else if (choice == 6) {
             saveEmployeeList(employeeList);
             break;
+        } else if (choice < 1 || choice > 6) {
+            printf("Not a valid option. Please try again.\n");
+            waitForUserInput();
+            continue;
         }
     }
 }
