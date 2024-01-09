@@ -177,13 +177,22 @@ int main() {
     EmployeeList employeeList = loadEmployeeList();
 
     while (true) {
-        printf("\n1. Add new employee\n");
-        printf("2. Remove employee\n");
-        printf("3. Update employee\n");
-        printf("4. Search employee\n");
-        printf("5. Print all employees\n");
-        printf("6. Exit\n");
-        printf("Select an option: ");
+        system("cls");
+
+        printf(" _____ _____ _____ _____ _____\n");
+        printf("|   __|   __|  _  |_   _|   __|\n");
+        printf("|   __|__   |     | | | |__   |\n");
+        printf("|_____|_____|__|__| |_| |_____|\n\n\n\n");
+        printf("\n\t **** Welcome to Contact Management System ****");
+        printf("\n\n\n\t\t\tMAIN MENU");
+        printf("\n\t\t=====================");
+        printf("\n\t\t[1] Add a new Employee");
+        printf("\n\t\t[2] Remove an employee");
+        printf("\n\t\t[3] Edit an employee");
+        printf("\n\t\t[4] Search an employee");
+        printf("\n\t\t[5] Print all employees");
+        printf("\n\t\t[6] Exit");
+        printf("\n\t\t=================\n\t\t");
 
         int choice;
         scanf("%d", &choice);
