@@ -4,8 +4,11 @@
 #include <string.h>
 #include <libgen.h>
 
-void createFile(char *fileName)
+void createFile()
 {
+    char fileName[100];
+    printf("Enter the name of the file you want to create: ");
+    scanf("%s", fileName);
     FILE *file = fopen(fileName, "w+");
     if (file == NULL)
     {
@@ -15,8 +18,11 @@ void createFile(char *fileName)
     fclose(file);
 }
 
-void deleteFile(char *fileName)
+void deleteFile()
 {
+    char fileName[100];
+    printf("Enter the name of the file you want to delete: ");
+    scanf("%s", fileName);
     char userResponse;
     FILE *file = fopen(fileName, "r");
     if (file == NULL)
