@@ -76,11 +76,14 @@ void searchFile()
         return;
     }
     struct dirent *de;
+    char filePath[1024];
     while ((de = readdir(dr)) != NULL)
     {
         if (strcmp(de->d_name, fileName) == 0)
         {
-            printf("File found!\n");
+            snprintf(filePath, sizeof(filePath), "%s/%s", script_dir, de->d_name);
+            printf("File found at path: %s\n", filePath);
+            closedir(dr);
             return;
         }
     }
@@ -88,4 +91,3 @@ void searchFile()
     closedir(dr);
 }
 
-//
