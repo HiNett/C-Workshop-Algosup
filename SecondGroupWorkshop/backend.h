@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <dirent.h>
+#include <string.h>
+#include <libgen.h>
 
 void createFile(char *fileName)
 {
@@ -37,3 +40,52 @@ void deleteFile(char *fileName)
         printf("File deletion cancelled.\n");
     }
 }
+
+void listFiles()
+{
+    struct dirent *de;
+    char script_dir[1024];
+    strncpy(script_dir, __FILE__, sizeof(script_dir));
+    dirname(script_dir);
+
+    DIR *dr = opendir(script_dir);
+    if (dr == NULL)
+    {
+        printf("Could not open current directory");
+        return;
+    }
+    while ((de = readdir(dr)) != NULL)
+        printf("%s\n", de->d_name);
+    closedir(dr);
+}
+
+void searchFile()
+{
+    char fileName[100];
+    char script_dir[1024];
+    strncpy(script_dir, __FILE__, sizeof(script_dir));
+    dirname(script_dir);
+
+    printf("Enter the name of the file you want to search: ");
+    scanf("%s", fileName);
+
+    DIR *dr = opendir(script_dir);
+    if (dr == NULL)
+    {
+        printf("Could not open current directory");
+        return;
+    }
+    struct dirent *de;
+    while ((de = readdir(dr)) != NULL)
+    {
+        if (strcmp(de->d_name, fileName) == 0)
+        {
+            printf("File found!\n");
+            return;
+        }
+    }
+    printf("File not found!\n");
+    closedir(dr);
+}
+
+//
